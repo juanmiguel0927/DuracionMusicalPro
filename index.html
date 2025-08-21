@@ -167,7 +167,7 @@
         }
         .btn-secondary:active {
             transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .error-message {
@@ -314,8 +314,7 @@
                     <input type="radio" id="calcMinutos" name="calcType" value="minutos" class="peer">
                     <span class="radio-label">Total de minutos</span>
                 </label>
-                <label class="radio-option" id="calcBPMLabel">
-                    <input type="radio" id="calcBPM" name="calcType" value="bpm" class="peer">
+                <label class="radio-option" id="calcBPM" name="calcType" value="bpm" class="peer">
                     <span class="radio-label">BPM</span>
                 </label>
             </div>
@@ -334,6 +333,12 @@
                 <label for="bpm">BPM:</label>
                 <input type="number" id="bpm" placeholder="Ej. 120" min="0" step="1">
             </div>
+        </div>
+        
+        <!-- Golden Ratio Box -->
+        <div class="input-group mb-2" id="goldenRatioGroup">
+            <label for="goldenRatioResult" class="text-sm">Proporción Áurea (punto de clímax):</label>
+            <input type="text" id="goldenRatioResult" class="text-center input-result" readonly value="">
         </div>
 
         <button id="calculateBtn" class="btn-primary w-full">Calcular</button>
@@ -397,6 +402,10 @@
                 <p>Haz clic aquí para limpiar todos los campos y empezar un nuevo cálculo.</p>
             </div>
             <div class="tutorial-step" id="step13">
+                <h3>Paso 13: La Proporción Áurea</h3>
+                <p>La proporción áurea es un principio de diseño natural que crea un sentido de belleza y equilibrio. En música, se puede usar para colocar el <strong>punto de clímax</strong> o la parte más intensa de la canción. Esta aplicación lo calcula multiplicando el <strong>Total de compases</strong> por <strong>0.618</strong>, y redondeando al compás entero más cercano.</p>
+            </div>
+            <div class="tutorial-step" id="step14">
                 <h3>¡Listo!</h3>
                 <p>¡Disfruta tu calculadora musical!</p>
             </div>
@@ -426,6 +435,7 @@
         const nextStepBtn = document.getElementById('nextStepBtn');
         const tutorialSteps = document.querySelectorAll('.tutorial-step');
         const notificationElement = document.getElementById('notification');
+        const goldenRatioResultInput = document.getElementById('goldenRatioResult');
 
         // Map calculation types to their corresponding input elements
         const inputMap = {
@@ -442,6 +452,7 @@
         const calcMinutosLabel = document.getElementById('calcMinutosLabel');
         const calcBPMLabel = document.getElementById('calcBPMLabel');
         const clearBtnElement = document.getElementById('clearBtn');
+        const goldenRatioGroup = document.getElementById('goldenRatioGroup');
 
 
         // Map tutorial target IDs to their actual DOM elements
@@ -514,6 +525,7 @@
             totalCompasesInput.value = '';
             totalMinutosInput.value = '';
             bpmInput.value = '';
+            goldenRatioResultInput.value = ''; // Reset golden ratio field to empty
 
             // Enable all fields initially
             totalCompasesInput.disabled = false;
@@ -707,6 +719,7 @@
                         return;
                     }
                     result = Math.round((totalSegundos / 60 * bpm) / pulsosPorCompas);
+                    totalCompases = result; // Update totalCompases for golden ratio calculation
                     resultTextForNotification = `Total de Compases: ${result}`;
                     break;
 
@@ -736,6 +749,15 @@
                     displayError('Error: Selecciona qué valor quieres calcular.');
                     return;
             }
+
+            // Calculate and display Golden Ratio
+            if (totalCompases !== undefined && !isNaN(totalCompases) && totalCompases > 0) {
+                const goldenRatioValue = Math.round(totalCompases * 0.618);
+                goldenRatioResultInput.value = goldenRatioValue;
+            } else {
+                goldenRatioResultInput.value = '';
+            }
+
 
             // Display the result in the target input field and add highlighting class
             if (targetInput) {
@@ -825,5 +847,4 @@
     </script>
 </body>
 </html>
-
 
