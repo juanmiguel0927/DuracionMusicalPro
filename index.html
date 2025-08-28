@@ -314,7 +314,8 @@
                     <input type="radio" id="calcMinutos" name="calcType" value="minutos" class="peer">
                     <span class="radio-label">Total de minutos</span>
                 </label>
-                <label class="radio-option" id="calcBPM" name="calcType" value="bpm" class="peer">
+                <label class="radio-option" id="calcBPMLabel">
+                    <input type="radio" id="calcBPM" name="calcType" value="bpm" class="peer">
                     <span class="radio-label">BPM</span>
                 </label>
             </div>
@@ -625,9 +626,9 @@
                 totalCompasesInput.disabled = false;
                 totalMinutosInput.disabled = false;
                 bpmInput.disabled = false;
-                totalCompasesInput.classList.remove('active-input');
-                totalMinutosInput.classList.remove('active-input');
-                bpmInput.classList.remove('active-input');
+                totalCompasesInput.classList.remove('input-result');
+                totalMinutosInput.classList.remove('input-result');
+                bpmInput.classList.remove('input-result');
 
                 const selectedCalcType = document.querySelector('input[name="calcType"]:checked').value;
 
